@@ -1,7 +1,32 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NoteController;
 use Illuminate\Support\Facades\Route;
 
+// Landing page
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
+})->name('home');
+
+// Auth routes (guests only)
+Route::middleware('guest')->group(function () {
+    Route::get('/login',    [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login',   [AuthController::class, 'login']);
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register',[AuthController::class, 'register']);
+});
+
+// Logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Notes CRUD (authenticated)
+Route::middleware('auth')->group(function () {
+    Route::get('/notes',            [NoteController::class, 'index'])->name('notes.index');
+    Route::get('/notes/create',     [NoteController::class, 'create'])->name('notes.create');
+    Route::post('/notes',           [NoteController::class, 'store'])->name('notes.store');
+    Route::get('/notes/{note}/edit',[NoteController::class, 'edit'])->name('notes.edit');
+    Route::put('/notes/{note}',     [NoteController::class, 'update'])->name('notes.update');
+    Route::delete('/notes/{note}',  [NoteController::class, 'destroy'])->name('notes.destroy');
+    Route::post('/notes/{note}/pin',[NoteController::class, 'togglePin'])->name('notes.pin');
 });
