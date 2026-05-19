@@ -29,4 +29,13 @@ Route::middleware('auth')->group(function () {
     Route::put('/notes/{note}',     [NoteController::class, 'update'])->name('notes.update');
     Route::delete('/notes/{note}',  [NoteController::class, 'destroy'])->name('notes.destroy');
     Route::post('/notes/{note}/pin',[NoteController::class, 'togglePin'])->name('notes.pin');
+    Route::patch('/notes/{note}/color',[NoteController::class, 'updateColor'])->name('notes.color');
+    Route::post('/notes/{note}/image',[NoteController::class, 'uploadImage'])->name('notes.image');
+    
+    // Trash routes
+    Route::get('/trash',                  [NoteController::class, 'trash'])->name('notes.trash');
+    Route::post('/notes/{id}/restore',    [NoteController::class, 'restore'])->name('notes.restore');
+    Route::delete('/notes/{id}/force',    [NoteController::class, 'forceDelete'])->name('notes.forceDelete');
+    Route::delete('/notes/empty-trash',   [NoteController::class, 'emptyTrash'])->name('notes.emptyTrash');
+    Route::post('/notes/{note}/copy',     [NoteController::class, 'duplicate'])->name('notes.duplicate');
 });

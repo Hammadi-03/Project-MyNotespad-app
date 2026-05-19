@@ -110,8 +110,8 @@
         @auth
             <a href="{{ route('notes.index') }}" class="btn btn-primary">Open App</a>
         @else
-            <a href="{{ route('login') }}" class="btn btn-ghost">Sign In</a>
-            <a href="{{ route('register') }}" class="btn btn-primary">Get Started Free</a>
+            <a href="{{ route('login') }}" class="btn btn-ghost">Log in</a>
+            <a href="{{ route('register') }}" class="btn btn-primary">sign in</a>
         @endauth
     </div>
 </nav>
@@ -174,7 +174,7 @@
         <h2>Start taking better notes today</h2>
         <p>Join and organize your thoughts in a beautifully designed workspace.</p>
         <div class="cta-btns">
-            <a href="{{ route('register') }}" class="btn btn-white btn-lg">🚀 Create Free Account</a>
+            <a href="{{ route('register') }}" class="btn btn-white btn-lg">Create Account</a>
             <a href="{{ route('login') }}" class="btn btn-outline-white btn-lg">Sign In →</a>
         </div>
     </div>

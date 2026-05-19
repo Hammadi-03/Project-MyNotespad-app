@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         /* ── Design Tokens ── */
@@ -136,6 +137,15 @@
         .toast.success { background: #ECFDF5; color: #065F46; border-left: 4px solid var(--success); }
         .toast.error   { background: #FEF2F2; color: #991B1B; border-left: 4px solid var(--danger); }
         .toast.info    { background: #EFF6FF; color: #1E40AF; border-left: 4px solid #3B82F6; }
+        .toast.deleted { 
+            background: #323232; color: #fff; border: none; 
+            border-radius: 4px; box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+        }
+        .toast-undo {
+            color: #F4B400; font-weight: 500; background: none; border: none; cursor: pointer;
+            padding: 0 8px; font-size: 14px; margin-left: auto; font-family: inherit; letter-spacing: 0.3px;
+        }
+        .toast-undo:hover { text-decoration: underline; }
         .toast-icon { font-size: 18px; flex-shrink: 0; }
         .toast-close {
             margin-left: auto; background: none; border: none;
@@ -187,7 +197,7 @@
     <div class="modal-overlay" id="deleteModal">
         <div class="modal">
             <div style="text-align:center; margin-bottom:20px;">
-                <div style="width:56px;height:56px;background:#FEF2F2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px;">🗑️</div>
+                <div style="width:56px;height:56px;background:#FEF2F2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px;"><i class="fa-regular fa-trash-can" style="color:#EF4444;font-size:24px;"></i></div>
                 <h3 style="font-size:18px;font-weight:700;color:var(--gray-900);margin-bottom:8px;">Delete Note</h3>
                 <p style="color:var(--gray-500);font-size:14px;">Are you sure you want to delete <strong id="deleteNoteTitle"></strong>? This action cannot be undone.</p>
             </div>
@@ -201,18 +211,33 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <script>
     // ── Toast System ──
     function showToast(message, type = 'success') {
-        const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+        const icons = { 
+            success: '<i class="fa-solid fa-circle-check" style="color:#10B981;"></i>', 
+            error: '<i class="fa-solid fa-circle-xmark" style="color:#EF4444;"></i>', 
+            info: '<i class="fa-solid fa-circle-info" style="color:#3B82F6;"></i>' 
+        };
         const container = document.getElementById('toast-container');
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
-        toast.innerHTML = `
-            <span class="toast-icon">${icons[type]}</span>
-            <span>${message}</span>
-            <button class="toast-close" onclick="dismissToast(this.parentElement)">✕</button>
-        `;
+        
+        if (type === 'deleted') {
+            toast.innerHTML = `
+                <span style="flex:1;">Note trashed</span>
+                <button class="toast-undo" onclick="dismissToast(this.parentElement)">Undo</button>
+                <button class="toast-close" style="color:#fff; opacity:0.7; margin-left:8px;" onclick="dismissToast(this.parentElement)">✕</button>
+            `;
+        } else {
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type]}</span>
+                <span>${message}</span>
+                <button class="toast-close" onclick="dismissToast(this.parentElement)">✕</button>
+            `;
+        }
+        
         container.appendChild(toast);
         setTimeout(() => dismissToast(toast), 4000);
     }
@@ -250,6 +275,9 @@
         @endif
         @if(session('info'))
             showToast(@json(session('info')), 'info');
+        @endif
+        @if(session('deleted'))
+            showToast('Note trashed', 'deleted');
         @endif
     });
     </script>
