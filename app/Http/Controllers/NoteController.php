@@ -5,14 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class NoteController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index(Request $request)
     {
         $query = Auth::user()->notes()->latest();
@@ -25,9 +21,9 @@ class NoteController extends Controller
             });
         }
 
-        $notes     = $query->get();
-        $pinned    = $notes->where('is_pinned', true);
-        $unpinned  = $notes->where('is_pinned', false);
+        $notes      = $query->get();
+        $pinned     = $notes->where('is_pinned', true);
+        $unpinned   = $notes->where('is_pinned', false);
         $totalNotes = Auth::user()->notes()->count();
 
         return view('notes.index', compact('notes', 'pinned', 'unpinned', 'totalNotes'));
@@ -58,13 +54,13 @@ class NoteController extends Controller
 
     public function edit(Note $note)
     {
-        $this->authorize('update', $note);
+        Gate::authorize('update', $note);
         return view('notes.edit', compact('note'));
     }
 
     public function update(Request $request, Note $note)
     {
-        $this->authorize('update', $note);
+        Gate::authorize('update', $note);
 
         $data = $request->validate([
             'title'   => ['required', 'string', 'max:255'],
@@ -80,7 +76,7 @@ class NoteController extends Controller
 
     public function destroy(Note $note)
     {
-        $this->authorize('delete', $note);
+        Gate::authorize('delete', $note);
         $title = $note->title;
         $note->delete();
 
@@ -90,9 +86,11 @@ class NoteController extends Controller
 
     public function togglePin(Note $note)
     {
-        $this->authorize('update', $note);
+        Gate::authorize('update', $note);
         $note->update(['is_pinned' => !$note->is_pinned]);
 
-        return back()->with('success', $note->is_pinned ? 'Note pinned!' : 'Note unpinned.');
+        $msg = $note->fresh()->is_pinned ? 'Note pinned! 📌' : 'Note unpinned.';
+
+        return back()->with('success', $msg);
     }
 }
