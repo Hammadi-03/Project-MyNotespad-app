@@ -403,7 +403,7 @@
     <!-- Top Bar -->
     <header class="topbar">
         <div class="topbar-left">
-            <button type="button" class="hamburger" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+            <button type="button" class="hamburger" onclick="toggleSidebar(event)" aria-label="Toggle sidebar">
                 <svg focusable="false" viewBox="0 0 24 24" style="width:24px;height:24px;fill:currentColor;"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
             </button>
             <a href="{{ route('notes.index') }}" class="topbar-logo">
@@ -493,7 +493,8 @@
 </div>
 
 <script>
-function toggleSidebar() {
+function toggleSidebar(event) {
+    if (event) event.stopPropagation();
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.querySelector('.main-content');
     sidebar.classList.toggle('closed');
