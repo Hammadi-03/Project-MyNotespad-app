@@ -33,7 +33,7 @@ class Note extends Model
 
     public function labels()
     {
-        return $this->belongsToMany(Label::class);
+        return $this->belongsToMany(Label::class, 'note_label');
     }
 
     public function scopePinned($query)

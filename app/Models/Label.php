@@ -21,6 +21,6 @@ class Label extends Model
 
     public function notes()
     {
-        return $this->belongsToMany(Note::class);
+        return $this->belongsToMany(Note::class, 'note_label');
     }
 }
