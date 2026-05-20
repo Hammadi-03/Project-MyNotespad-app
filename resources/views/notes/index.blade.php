@@ -257,8 +257,6 @@
                         <div style="font-size:12px;color:var(--gray-400);">{{ auth()->user()->email }}</div>
                     </div>
                     <div class="dropdown-divider"></div>
-                    <a href="{{ route('notes.create') }}" class="dropdown-item"><i class="fa-regular fa-file-lines" style="width:18px;"></i> New Note</a>
-                    <div class="dropdown-divider"></div>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="dropdown-item danger"><i class="fa-solid fa-right-from-bracket" style="width:18px;"></i> Sign Out</button>

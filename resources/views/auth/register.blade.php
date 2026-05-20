@@ -377,7 +377,7 @@
             
             <div class="card-footer">
                 <p class="footer-text">
-                    Already have an account? <a href="{{ route('login') }}" class="link">Sign in</a>
+                    Already have an account? <a href="{{ route('login') }}" class="link">Log in </a>
                 </p>
             </div>
         </div>
