@@ -19,7 +19,7 @@
             <a href="{{ route('notes.index') }}" class="btn btn-primary">Open App</a>
         @else
             <a href="{{ route('login') }}" class="btn btn-ghost">Log in</a>
-            <a href="{{ route('register') }}" class="btn btn-primary">sign in</a>
+            <a href="{{ route('register') }}" class="btn btn-primary">Sign Up</a>
         @endauth
     </div>
 </nav>

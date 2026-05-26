@@ -109,6 +109,29 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if(session('success'))
+                if (typeof window.showToast === 'function') {
+                    window.showToast(@json(session('success')), 'success');
+                }
+            @endif
+            @if(session('error'))
+                if (typeof window.showToast === 'function') {
+                    window.showToast(@json(session('error')), 'error');
+                }
+            @endif
+            @if(session('info'))
+                if (typeof window.showToast === 'function') {
+                    window.showToast(@json(session('info')), 'info');
+                }
+            @endif
+            @if(session('deleted'))
+                if (typeof window.showToast === 'function') {
+                    window.showToast('Note trashed', 'deleted');
+                }
+            @endif
+        });
+    </script>
 </body>
 </html>

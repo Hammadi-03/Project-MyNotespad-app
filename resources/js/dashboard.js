@@ -93,7 +93,7 @@
     function submitCreateLabel() {
         const name = document.getElementById('newLabelInput').value.trim();
         if (!name) return;
-        fetch("${window.AppConfig.routeLabelsStore}", {
+        fetch(window.AppConfig.routeLabelsStore, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -185,23 +185,6 @@
             }
         });
     }
-
-    // ── Auto-show session flash toasts ──
-    document.addEventListener('DOMContentLoaded', function() {
-        @if(session('success'))
-            showToast(@json(session('success')), 'success');
-        @endif
-        @if(session('error'))
-            showToast(@json(session('error')), 'error');
-        @endif
-        @if(session('info'))
-            showToast(@json(session('info')), 'info');
-        @endif
-        @if(session('deleted'))
-            showToast('Note trashed', 'deleted');
-        @endif
-    });
-    
 
 function expandQuickNote() {
     const card = document.getElementById('quickNoteCard');
@@ -689,30 +672,54 @@ document.addEventListener('click', function(e) {
 
 // Initialize mobile state
 if (window.innerWidth <= 768) {
-    document.getElementById('sidebar').classList.add('closed');
-    document.querySelector('.main-content').classList.add('expanded');
-}
-
-
-function toggleSidebar(event) {
-    if (event) event.stopPropagation();
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.querySelector('.main-content');
-    sidebar.classList.toggle('closed');
-    mainContent.classList.toggle('expanded');
+    if (sidebar) sidebar.classList.add('closed');
+    if (mainContent) mainContent.classList.add('expanded');
 }
 
-function toggleUserMenu() {
-    document.getElementById('userMenu').classList.toggle('open');
-}
-document.addEventListener('click', function(e) {
-    const menu = document.getElementById('userMenu');
-    if (menu && !menu.contains(e.target)) menu.classList.remove('open');
-});
-
-// Initialize mobile state
-if (window.innerWidth <= 768) {
-    document.getElementById('sidebar').classList.add('closed');
-    document.querySelector('.main-content').classList.add('expanded');
-}
+// Expose functions globally for Blade inline click handlers
+window.showToast = showToast;
+window.dismissToast = dismissToast;
+window.confirmDelete = confirmDelete;
+window.closeDeleteModal = closeDeleteModal;
+window.openSettingsModal = openSettingsModal;
+window.closeSettingsModal = closeSettingsModal;
+window.openFeedbackModal = openFeedbackModal;
+window.closeFeedbackModal = closeFeedbackModal;
+window.openEditLabelsModal = openEditLabelsModal;
+window.closeEditLabelsModal = closeEditLabelsModal;
+window.submitCreateLabel = submitCreateLabel;
+window.showSaveLabelIcon = showSaveLabelIcon;
+window.submitUpdateLabel = submitUpdateLabel;
+window.toggleNoteLabel = toggleNoteLabel;
+window.submitDeleteLabel = submitDeleteLabel;
+window.expandQuickNote = expandQuickNote;
+window.closeQuickNote = closeQuickNote;
+window.toggleQuickNoteColorMenu = toggleQuickNoteColorMenu;
+window.selectQuickNoteColor = selectQuickNoteColor;
+window.previewQuickNoteImage = previewQuickNoteImage;
+window.removeQuickNoteImage = removeQuickNoteImage;
+window.toggleColorMenu = toggleColorMenu;
+window.toggleCardMoreMenu = toggleCardMoreMenu;
+window.changeNoteColor = changeNoteColor;
+window.triggerCardImageUpload = triggerCardImageUpload;
+window.uploadCardImage = uploadCardImage;
+window.openEditModal = openEditModal;
+window.closeEditModalOutside = closeEditModalOutside;
+window.saveEditModal = saveEditModal;
+window.toggleEditModalColorMenu = toggleEditModalColorMenu;
+window.changeEditModalColor = changeEditModalColor;
+window.previewEditModalImage = previewEditModalImage;
+window.removeEditModalImage = removeEditModalImage;
+window.toggleEditModalMoreMenu = toggleEditModalMoreMenu;
+window.deleteModalNote = deleteModalNote;
+window.duplicateModalNote = duplicateModalNote;
+window.toggleEditModalPin = toggleEditModalPin;
+window.archiveQuickNote = archiveQuickNote;
+window.toggleViewMode = toggleViewMode;
+window.updateViewModeIcon = updateViewModeIcon;
+window.toggleSettingsDropdown = toggleSettingsDropdown;
+window.toggleSidebar = toggleSidebar;
+window.toggleUserMenu = toggleUserMenu;
 
