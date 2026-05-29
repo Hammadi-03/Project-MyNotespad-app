@@ -55,9 +55,12 @@
     function closeDeleteModal() {
         document.getElementById('deleteModal').classList.remove('active');
     }
-    document.getElementById('deleteModal').addEventListener('click', function(e) {
-        if (e.target === this) closeDeleteModal();
-    });
+    const deleteModal = document.getElementById('deleteModal');
+    if (deleteModal) {
+        deleteModal.addEventListener('click', function(e) {
+            if (e.target === this) closeDeleteModal();
+        });
+    }
 
 
     // ── Reusable Modal Helpers ──

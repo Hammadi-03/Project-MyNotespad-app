@@ -432,7 +432,7 @@
 
     /* Quick Note Creator */
     .quick-note-wrapper{max-width:600px;margin:0 auto 40px;position:relative;}
-    .quick-note-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);box-shadow:var(--shadow-sm);transition:all .3s cubic-bezier(.4,0,.2,1);overflow:hidden;}
+    .quick-note-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);box-shadow:none;transition:all .3s cubic-bezier(.4,0,.2,1);overflow:hidden;}
     .quick-note-card.expanded{box-shadow:0 4px 14px rgba(0,0,0,.15);}
     .qn-title-wrap{display:none;padding:12px 16px 0;}
     .quick-note-card.expanded .qn-title-wrap{display:block;}
